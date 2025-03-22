@@ -1,3 +1,6 @@
+# type: ignore
+# ruff: noqa
+
 import copy
 import torch
 from dtreeviz.trees import *

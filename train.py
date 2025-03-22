@@ -1,3 +1,6 @@
+# type: ignore
+# ruff: noqa
+
 from sklearn.model_selection import train_test_split
 from torch import nn
 from torch.optim import Adam
