@@ -12,7 +12,7 @@ from PIL import Image as ImagePIL
 import pydotplus
 
 np.random.seed(5555)
-device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+device = "mps" if torch.backends.mps.is_available() else 'cpu'
 
 
 def get_data_loader(X_train, y_train, X_test, y_test, X_val, y_val, X_type, y_type, batch_size):
@@ -233,7 +233,7 @@ def pred_contours(x, y, model):
     y_pred = []
 
     for d in data:
-        y_hat = model(torch.tensor(d, dtype=torch.float, device='cuda:0'))
+        y_hat = model(torch.tensor(d, dtype=torch.float, device='mps'))
         y_pred.append(y_hat.detach().cpu().numpy())
 
     y_pred = np.array(y_pred)

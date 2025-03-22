@@ -1,2 +1,6 @@
 figures/
 runs/
+dataset/
+models/
+__pycache__/
+

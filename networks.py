@@ -11,7 +11,7 @@ torch.random.manual_seed(5255)
 
 warnings.filterwarnings('ignore')
 
-device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+device = "mps" if torch.backends.mps.is_available() else 'cpu'
 
 
 class SurrogateNetwork(nn.Module):

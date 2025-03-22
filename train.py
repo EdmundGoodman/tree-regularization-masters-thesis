@@ -57,9 +57,9 @@ def parser():
 def resample_data():
 
     if fun_name == "parabola":
-        X, y = sample_2D_data(5000, parabola, 0.2, space)
+        X, y = sample_2D_data(500, parabola, 0.2, space)
     elif fun_name == "cos":
-        X, y = sample_2D_data(5000, cos, 0.4, space)
+        X, y = sample_2D_data(500, cos, 0.4, space)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
 
@@ -392,7 +392,7 @@ def train(data_train_loader, data_test_loader, data_val_loader, writer, path):
 
     fig = plt.figure()
     plt.plot(range(0, len(APLs_truth)), APLs_truth, color='y', label='true APL')
-    plt.plot(range(0, len(APL_predictions)), APL_predictions, color='g', label='predicted APL $\hat{\Omega}(W)$')
+    plt.plot(range(0, len(APL_predictions)), [prediction.detach().cpu().numpy() for prediction in APL_predictions], color='g', label='predicted APL $\hat{\Omega}(W)$')
     plt.vlines(x_iter_warm_up, 0, max(APLs_truth), linestyles="dashed", colors='r')
     plt.xlabel('iterations')
     plt.ylabel('path length')
@@ -426,9 +426,13 @@ def train(data_train_loader, data_test_loader, data_val_loader, writer, path):
     plt.savefig(f'{path}/lambda_curve.png')
     plt.close(fig)
 
-    for i, _ in enumerate(surrogate_training_loss):
-        for j, value in enumerate(surrogate_training_loss[i]):
-            writer.add_scalar(f'Surrogate Training/Loss of surrogate training after epoch {i}', value, j)
+    try:
+        for i, _ in enumerate(surrogate_training_loss):
+            print(surrogate_training_loss[i])
+            for j, value in enumerate(surrogate_training_loss[i]):
+                writer.add_scalar(f'Surrogate Training/Loss of surrogate training after epoch {i}', value, j)
+    except TypeError as err:
+        print(err)
 
     for i, value in enumerate(training_loss_without_reg):
         writer.add_scalar(f'Training loss without regularisation', value, i)
@@ -561,7 +565,7 @@ def init(path, tb_logs_path):
 
 if __name__ == '__main__':
 
-    device = "cuda:0" if torch.cuda.is_available() else 'cpu'
+    device = "mps" if torch.backends.mps.is_available() else 'cpu'
 
     args = parser().parse_args()
     dim = 2

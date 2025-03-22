@@ -140,7 +140,7 @@ def sample_2D_data(num_samples, fun, error, space):
 
 
 if __name__ == '__main__':
-    device = "cuda:0" if torch.cuda.is_available() else 'cpu'
+    device = "mps" if torch.backends.mps.is_available() else 'cpu'
 
     args = parser().parse_args()
     num_samples = args.sample_size
