@@ -39,7 +39,7 @@ def parser():
 
     parser.add_argument('--ep',
                         required=False,
-                        default=1000,
+                        default=400,
                         type=int,
                         help='Total number of epochs, default 1000 (300 warm up + 700 regularisation)')
 
@@ -217,7 +217,7 @@ def train(data_train_loader, data_test_loader, data_val_loader, writer, path):
     # Hypterparameters
     num_random_restarts = 50
     total_num_epochs = args.ep
-    epochs_warm_up = 300
+    epochs_warm_up = 120
     epochs_reg = total_num_epochs - epochs_warm_up
     lambda_init = args.lambda_init
     lambda_target = args.lambda_target
