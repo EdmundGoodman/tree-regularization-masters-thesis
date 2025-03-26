@@ -19,7 +19,7 @@ def parser():
     parser.add_argument('--sample_size',
                         required=False,
                         type=int,
-                        default=2000,
+                        default=500,
                         help='Number of data instances per sampling. Default: 2000')
 
     parser.add_argument('--path',
